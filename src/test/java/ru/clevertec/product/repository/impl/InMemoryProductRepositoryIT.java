@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 
-class InMemoryProductRepositoryTest {
+class InMemoryProductRepositoryIT {
 
     private ProductRepository productRepository;
 
@@ -103,6 +103,7 @@ class InMemoryProductRepositoryTest {
         productRepository.delete(product3.getUuid());
         // then
         assertThat(productRepository.findAll()).hasSize(2);
+        assertEquals(Optional.empty(), productRepository.findById(product3.getUuid()));
     }
 
     @Test
