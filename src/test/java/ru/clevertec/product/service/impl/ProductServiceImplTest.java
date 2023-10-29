@@ -63,11 +63,11 @@ class ProductServiceImplTest {
     @Test
     void getShouldThrowProductNotFoundException_whenProductIsNotFound() {
         // given
-        UUID uuid = UUID.fromString("25486810-43dd-41e8-ab60-98aa2d200acb0");
-
+        UUID uuid = UUID.fromString("25486810-43dd-41e8-ab60-db03caf9dad6");
+        // when
         // then
         var exception = assertThrows(ProductNotFoundException.class, () -> productService.get(uuid));
-        assertThat(exception.getMessage()).isEqualTo("Product with uuid: 25486810-43dd-41e8-ab60-98aa2d200acb0 not found");
+        assertThat(exception.getMessage()).isEqualTo("Product with uuid: 25486810-43dd-41e8-ab60-db03caf9dad6 not found");
     }
 
     @Test
@@ -98,7 +98,7 @@ class ProductServiceImplTest {
 
         // then
         verify(productRepository).findAll();
-        assertIterableEquals(actual, expected);
+        assertIterableEquals(expected, actual);
 
     }
 
@@ -160,7 +160,7 @@ class ProductServiceImplTest {
     @Test
     void updateShouldThrowProductNotFoundException_whenProductIsNotFound() {
         // given
-        UUID uuid = UUID.fromString("25486810-43dd-41e8-ab60-98aa2d200acb0");
+        UUID uuid = UUID.fromString("25486810-43dd-41e8-ab60-98aa2d200acb");
         ProductDto productDto = ProductTestData.builder()
                 .withName("Булочка")
                 .withDescription("с маком")
@@ -168,7 +168,7 @@ class ProductServiceImplTest {
                 .build().buildProductDto();
         // then
         var exception = assertThrows(ProductNotFoundException.class, () -> productService.update(uuid, productDto));
-        assertThat(exception.getMessage()).isEqualTo("Product with uuid: 25486810-43dd-41e8-ab60-98aa2d200acb0 not found");
+        assertThat(exception.getMessage()).isEqualTo("Product with uuid: 25486810-43dd-41e8-ab60-98aa2d200acb not found");
     }
 
     @Test
