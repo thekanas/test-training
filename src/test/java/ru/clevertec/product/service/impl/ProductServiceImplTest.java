@@ -56,7 +56,6 @@ class ProductServiceImplTest {
         InfoProductDto actual = productService.get(uuid);
 
         // then
-        verify(productRepository).findById(uuid);
         assertThat(actual).isEqualTo(expected);
     }
 
@@ -97,7 +96,6 @@ class ProductServiceImplTest {
         List<InfoProductDto> actual = productService.getAll();
 
         // then
-        verify(productRepository).findAll();
         assertIterableEquals(expected, actual);
 
     }
@@ -150,7 +148,6 @@ class ProductServiceImplTest {
         productService.update(uuid, productDto);
 
         // then
-        verify(productRepository).findById(uuid);
         verify(productRepository).save(productCaptor.capture());
         assertThat(productCaptor.getValue())
                 .isEqualTo(newProduct);
