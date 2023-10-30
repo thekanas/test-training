@@ -76,15 +76,17 @@ class InMemoryProductRepositoryIT {
     }
 
     @Test
-    void save() {
+    void saveShouldSetUuidAndDate_whenProductWithoutUuidAndIsSaved() {
         // given
         Product productToSave = ProductTestData.builder()
                 .withUuid(null)
+                .withCreated(null)
                 .build().buildProduct();
         // when
         Product actual = productRepository.save(productToSave);
         // then
         assertNotEquals(null, actual.getUuid());
+        assertNotEquals(null, actual.getCreated());
     }
 
     @Test
