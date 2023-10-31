@@ -65,8 +65,10 @@ class InMemoryProductRepositoryIT {
         Product product1 = productRepository.save(new Product(null, "Банан", "Желтый", BigDecimal.valueOf(4.02), LocalDateTime.of(2023, 10, 29, 19, 1)));
         Product product2 = productRepository.save(new Product(null, "Дыня", "Желтая", BigDecimal.valueOf(8.02), LocalDateTime.of(2023, 10, 29, 19, 1)));
         Product product3 = productRepository.save(new Product(null, "Апельсин", "Оранжевый", BigDecimal.valueOf(4.52), LocalDateTime.of(2023, 10, 29, 19, 1)));
+
         // when
         List<Product> actual = productRepository.findAll();
+
         // then
         assertThat(actual).hasSize(3);
         List<UUID> productUuids = actual.stream()
@@ -82,8 +84,10 @@ class InMemoryProductRepositoryIT {
                 .withUuid(null)
                 .withCreated(null)
                 .build().buildProduct();
+
         // when
         Product actual = productRepository.save(productToSave);
+
         // then
         assertNotEquals(null, actual.getUuid());
         assertNotEquals(null, actual.getCreated());
@@ -101,8 +105,10 @@ class InMemoryProductRepositoryIT {
         Product product1 = productRepository.save(new Product(null, "Банан", "Желтый", BigDecimal.valueOf(4.02), LocalDateTime.of(2023, 10, 29, 19, 1)));
         Product product2 = productRepository.save(new Product(null, "Банан", "Желтый", BigDecimal.valueOf(4.02), LocalDateTime.of(2023, 10, 29, 19, 1)));
         Product product3 = productRepository.save(new Product(null, "Банан", "Желтый", BigDecimal.valueOf(4.02), LocalDateTime.of(2023, 10, 29, 19, 1)));
+
         // when
         productRepository.delete(product3.getUuid());
+
         // then
         assertThat(productRepository.findAll()).hasSize(2);
         assertEquals(Optional.empty(), productRepository.findById(product3.getUuid()));
@@ -111,12 +117,12 @@ class InMemoryProductRepositoryIT {
     @Test
     void deleteShouldNotThrowException_whenUuidIsNotFound() {
         // given
-        UUID uuid = UUID.fromString("6802b1e2-a572-45eb-b410-6666def1c46a");
+        UUID noFoundUuid = UUID.fromString("6802b1e2-a572-45eb-b410-6666def1c46a");
         Product product1 = productRepository.save(new Product(null, "Банан", "Желтый", BigDecimal.valueOf(4.02), LocalDateTime.of(2023, 10, 29, 19, 1)));
         Product product2 = productRepository.save(new Product(null, "Банан", "Желтый", BigDecimal.valueOf(4.02), LocalDateTime.of(2023, 10, 29, 19, 1)));
         Product product3 = productRepository.save(new Product(null, "Банан", "Желтый", BigDecimal.valueOf(4.02), LocalDateTime.of(2023, 10, 29, 19, 1)));
-        // when
-        // then
-        assertDoesNotThrow(() -> productRepository.delete(uuid));
+
+        // when, then
+        assertDoesNotThrow(() -> productRepository.delete(noFoundUuid));
     }
 }
