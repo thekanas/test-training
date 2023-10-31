@@ -29,7 +29,7 @@ class ProductMapperImplTest {
          // when
         Product actual = mapper.toProduct(productDto);
 
-        // then
+        // when, then
         assertEquals(expected, actual);
         assertThat(actual)
                 .hasFieldOrPropertyWithValue(Product.Fields.uuid, null)
