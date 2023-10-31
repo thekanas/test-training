@@ -41,7 +41,7 @@ class ProductServiceImplTest {
 
 
     @Test
-    void get() {
+    void getTest() {
         // given
         UUID uuid = ProductTestData.builder().build().getUuid();
         InfoProductDto expected = ProductTestData.builder()
@@ -49,8 +49,10 @@ class ProductServiceImplTest {
         Product product = ProductTestData.builder()
                 .build().buildProduct();
 
-        when(mapper.toInfoProductDto(product)).thenReturn(expected);
-        when(productRepository.findById(uuid)).thenReturn(Optional.of(product));
+        when(mapper.toInfoProductDto(product))
+                .thenReturn(expected);
+        when(productRepository.findById(uuid))
+                .thenReturn(Optional.of(product));
 
         // when
         InfoProductDto actual = productService.get(uuid);
@@ -63,14 +65,15 @@ class ProductServiceImplTest {
     void getShouldThrowProductNotFoundException_whenProductIsNotFound() {
         // given
         UUID uuid = UUID.fromString("25486810-43dd-41e8-ab60-db03caf9dad6");
-        // when
-        // then
+
+        // when, then
         var exception = assertThrows(ProductNotFoundException.class, () -> productService.get(uuid));
-        assertThat(exception.getMessage()).isEqualTo("Product with uuid: 25486810-43dd-41e8-ab60-db03caf9dad6 not found");
+        assertThat(exception.getMessage())
+                .isEqualTo("Product with uuid: 25486810-43dd-41e8-ab60-db03caf9dad6 not found");
     }
 
     @Test
-    void getAll() {
+    void getAllTest() {
         // given
         UUID uuid2 = UUID.fromString("c114c54f-9d37-4763-ab7e-db03caf9dad6");
         InfoProductDto infoProductDto1 = ProductTestData.builder()
@@ -88,9 +91,12 @@ class ProductServiceImplTest {
         List<InfoProductDto> expected = List.of(infoProductDto1, infoProductDto2);
         List<Product> products = List.of(product1, product2);
 
-        when(mapper.toInfoProductDto(product1)).thenReturn(infoProductDto1);
-        when(mapper.toInfoProductDto(product2)).thenReturn(infoProductDto2);
-        when(productRepository.findAll()).thenReturn(products);
+        when(mapper.toInfoProductDto(product1))
+                .thenReturn(infoProductDto1);
+        when(mapper.toInfoProductDto(product2))
+                .thenReturn(infoProductDto2);
+        when(productRepository.findAll())
+                .thenReturn(products);
 
         // when
         List<InfoProductDto> actual = productService.getAll();
@@ -111,8 +117,10 @@ class ProductServiceImplTest {
         ProductDto productDto = ProductTestData.builder()
                 .build().buildProductDto();
 
-        when(productRepository.save(productToSave)).thenReturn(expected);
-        when(mapper.toProduct(productDto)).thenReturn(productToSave);
+        when(productRepository.save(productToSave))
+                .thenReturn(expected);
+        when(mapper.toProduct(productDto))
+                .thenReturn(productToSave);
 
         // when
         productService.create(productDto);
@@ -124,7 +132,7 @@ class ProductServiceImplTest {
     }
 
     @Test
-    void update() {
+    void updateTest() {
         // given
         UUID uuid = ProductTestData.builder().build().getUuid();
         Product oldProduct = ProductTestData.builder()
@@ -140,9 +148,12 @@ class ProductServiceImplTest {
                 .withPrice(BigDecimal.valueOf(3.50))
                 .build().buildProductDto();
 
-        when(productRepository.findById(uuid)).thenReturn(Optional.ofNullable(oldProduct));
-        when(productRepository.save(newProduct)).thenReturn(newProduct);
-        when(mapper.merge(oldProduct, productDto)).thenReturn(newProduct);
+        when(productRepository.findById(uuid))
+                .thenReturn(Optional.ofNullable(oldProduct));
+        when(productRepository.save(newProduct))
+                .thenReturn(newProduct);
+        when(mapper.merge(oldProduct, productDto))
+                .thenReturn(newProduct);
 
         // when
         productService.update(uuid, productDto);
@@ -163,13 +174,15 @@ class ProductServiceImplTest {
                 .withDescription("с маком")
                 .withPrice(BigDecimal.valueOf(3.50))
                 .build().buildProductDto();
-        // then
+
+        // when, then
         var exception = assertThrows(ProductNotFoundException.class, () -> productService.update(uuid, productDto));
-        assertThat(exception.getMessage()).isEqualTo("Product with uuid: 25486810-43dd-41e8-ab60-98aa2d200acb not found");
+        assertThat(exception.getMessage())
+                .isEqualTo("Product with uuid: 25486810-43dd-41e8-ab60-98aa2d200acb not found");
     }
 
     @Test
-    void delete() {
+    void deleteTest() {
         // given
         UUID uuid = ProductTestData.builder().build().getUuid();
 
