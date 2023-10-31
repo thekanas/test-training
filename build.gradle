@@ -18,9 +18,12 @@ repositories {
 ext {
     junitVersion = '5.9.2'
     mockitoVersion = '5.6.0'
+    mapstructVersion = '1.5.5.Final'
 }
 
 dependencies {
+    implementation "org.mapstruct:mapstruct:${mapstructVersion}"
+    annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
 
     testImplementation "org.mockito:mockito-junit-jupiter:${mockitoVersion}"
     testImplementation 'org.assertj:assertj-core:3.24.2'
