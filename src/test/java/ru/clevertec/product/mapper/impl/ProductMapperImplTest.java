@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.mapstruct.factory.Mappers;
 import ru.clevertec.product.data.InfoProductDto;
 import ru.clevertec.product.data.ProductDto;
 import ru.clevertec.product.entity.Product;
@@ -21,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ProductMapperImplTest {
 
-    private final ProductMapper mapper = new ProductMapperImpl();
+    private final ProductMapper mapper = Mappers.getMapper(ProductMapper.class);
 
     @ParameterizedTest
     @MethodSource("getProductMapperArguments")

@@ -11,9 +11,13 @@ import ru.clevertec.product.data.InfoProductDto;
 import ru.clevertec.product.data.ProductDto;
 import ru.clevertec.product.entity.Product;
 import ru.clevertec.product.exception.ProductNotFoundException;
+import ru.clevertec.product.exception.ValidationException;
 import ru.clevertec.product.mapper.ProductMapper;
 import ru.clevertec.product.repository.ProductRepository;
 import ru.clevertec.product.util.ProductTestData;
+import ru.clevertec.product.validator.ProductDtoValidator;
+import ru.clevertec.product.validator.ValidationResult;
+import ru.clevertec.product.validator.Error;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -33,6 +37,8 @@ class ProductServiceImplTest {
     private ProductMapper mapper;
     @Mock
     private ProductRepository productRepository;
+    @Mock
+    private ProductDtoValidator productDtoValidator;
     @InjectMocks
     private ProductServiceImpl productService;
 
@@ -121,6 +127,8 @@ class ProductServiceImplTest {
                 .thenReturn(expected);
         when(mapper.toProduct(productDto))
                 .thenReturn(productToSave);
+        when(productDtoValidator.validate(productDto))
+                .thenReturn(new ValidationResult());
 
         // when
         productService.create(productDto);
@@ -129,6 +137,21 @@ class ProductServiceImplTest {
         verify(productRepository).save(productCaptor.capture());
         assertThat(productCaptor.getValue())
                 .hasFieldOrPropertyWithValue(Product.Fields.uuid, null);
+    }
+
+    @Test
+    void createShouldThrowException_whenDtoInvalid() {
+        // given
+        ProductDto productDto = ProductTestData.builder()
+                .build().buildProductDto();
+        ValidationResult validationResult = new ValidationResult();
+        validationResult.add(Error.of("invalid.name", "message"));
+
+        when(productDtoValidator.validate(productDto))
+                .thenReturn(validationResult);
+
+        // when,then
+        assertThrows(ValidationException.class, () -> productService.create(productDto));
     }
 
     @Test
@@ -154,6 +177,8 @@ class ProductServiceImplTest {
                 .thenReturn(newProduct);
         when(mapper.merge(oldProduct, productDto))
                 .thenReturn(newProduct);
+        when(productDtoValidator.validate(productDto))
+                .thenReturn(new ValidationResult());
 
         // when
         productService.update(uuid, productDto);
@@ -175,10 +200,29 @@ class ProductServiceImplTest {
                 .withPrice(BigDecimal.valueOf(3.50))
                 .build().buildProductDto();
 
+        when(productDtoValidator.validate(productDto))
+                .thenReturn(new ValidationResult());
+
         // when, then
         var exception = assertThrows(ProductNotFoundException.class, () -> productService.update(uuid, productDto));
         assertThat(exception.getMessage())
                 .isEqualTo("Product with uuid: 25486810-43dd-41e8-ab60-98aa2d200acb not found");
+    }
+
+    @Test
+    void updateShouldThrowException_whenDtoInvalid() {
+        // given
+        UUID uuid = UUID.fromString("25486810-43dd-41e8-ab60-98aa2d200acb");
+        ProductDto productDto = ProductTestData.builder()
+                .build().buildProductDto();
+        ValidationResult validationResult = new ValidationResult();
+        validationResult.add(Error.of("invalid.name", "message"));
+
+        when(productDtoValidator.validate(productDto))
+                .thenReturn(validationResult);
+
+        // when,then
+        assertThrows(ValidationException.class, () -> productService.update(uuid, productDto));
     }
 
     @Test
