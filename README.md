@@ -45,3 +45,23 @@
   Реализация [ProductMapper.java](src%2Fmain%2Fjava%2Fru%2Fclevertec%2Fproduct%2Fmapper%2FProductMapper.java)
 - [ProductNotFoundException.java](src%2Fmain%2Fjava%2Fru%2Fclevertec%2Fproduct%2Fexception%2FProductNotFoundException.java) -
   Исключение выпадающее только на сервисном слое
+
+## Ход выполнения задания:
+1. Выкачан репозиторий CoursesJava/task-test (github.com)
+2. Проект совместим с java 17
+3. Придерживался GitFlow master -> develop -> feature/{class}
+4. Покрыл тестами все методы классов по технике TDD:
+    1) [ProductServiceImpl.java]
+    2) [InMemoryProductRepository.java] - на класс репозитория написаны интеграционные тесты
+    3) [ProductMapperImpl.java]
+5. В тестах использовал Mock’s, ArgumentCaptor, Parametrised Tests
+6. Сделал 3 PR в develop протестированных классов
+7. Создал ветку develop -> feature/impl
+8. Реализовал логику функционала
+9. Использовал mapstruct
+10. Использовал стримы где смог
+11. Сделал ProductDtoValidator и тесты на него
+12. Сделал PR в develop (общая сумма PR = 4)
+13. Сделал PR из develop в master
+## Отчет о покрытии тестами:
+![reports](img/reports.png)
