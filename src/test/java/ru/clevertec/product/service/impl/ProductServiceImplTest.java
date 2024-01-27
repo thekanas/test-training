@@ -15,6 +15,7 @@ import ru.clevertec.product.exception.ValidationException;
 import ru.clevertec.product.mapper.ProductMapper;
 import ru.clevertec.product.repository.ProductRepository;
 import ru.clevertec.product.util.ProductTestData;
+import ru.clevertec.product.util.TestConstant;
 import ru.clevertec.product.validator.ProductDtoValidator;
 import ru.clevertec.product.validator.ValidationResult;
 import ru.clevertec.product.validator.Error;
@@ -35,10 +36,13 @@ class ProductServiceImplTest {
 
     @Mock
     private ProductMapper mapper;
+
     @Mock
     private ProductRepository productRepository;
+
     @Mock
     private ProductDtoValidator productDtoValidator;
+
     @InjectMocks
     private ProductServiceImpl productService;
 
@@ -70,12 +74,12 @@ class ProductServiceImplTest {
     @Test
     void getShouldThrowProductNotFoundException_whenProductIsNotFound() {
         // given
-        UUID uuid = UUID.fromString("25486810-43dd-41e8-ab60-db03caf9dad6");
+        UUID uuid = TestConstant.UUID_NOT_FOUND;
 
         // when, then
         var exception = assertThrows(ProductNotFoundException.class, () -> productService.get(uuid));
         assertThat(exception.getMessage())
-                .isEqualTo("Product with uuid: 25486810-43dd-41e8-ab60-db03caf9dad6 not found");
+                .isEqualTo("Product with uuid: " + uuid + " not found");
     }
 
     @Test
@@ -109,7 +113,6 @@ class ProductServiceImplTest {
 
         // then
         assertIterableEquals(expected, actual);
-
     }
 
     @Test
@@ -187,7 +190,6 @@ class ProductServiceImplTest {
         verify(productRepository).save(productCaptor.capture());
         assertThat(productCaptor.getValue())
                 .isEqualTo(newProduct);
-
     }
 
     @Test
@@ -236,4 +238,5 @@ class ProductServiceImplTest {
         // then
         verify(productRepository).delete(uuid);
     }
+
 }

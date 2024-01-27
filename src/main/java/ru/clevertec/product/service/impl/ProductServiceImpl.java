@@ -15,7 +15,6 @@ import ru.clevertec.product.validator.ValidationResult;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
@@ -37,7 +36,7 @@ public class ProductServiceImpl implements ProductService {
     public List<InfoProductDto> getAll() {
         return productRepository.findAll().stream()
                 .map(mapper::toInfoProductDto)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override

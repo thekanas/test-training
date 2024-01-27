@@ -65,7 +65,7 @@ class ProductDtoValidatorTest {
     }
 
     @ParameterizedTest
-    @ValueSource(doubles = {-1.0, 0.0, -111111111.1, -0.00000000000001})
+    @ValueSource(doubles = {-1.0, -111111111.1, -0.00000000000001})
     void invalidPrice(double price) {
         // given
         ProductDto productDto = ProductTestData.builder()
@@ -114,4 +114,5 @@ class ProductDtoValidatorTest {
                 .toList();
         assertThat(errorCodes).contains("invalid.name", "invalid.description", "invalid.price");
     }
+
 }

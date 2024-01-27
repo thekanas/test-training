@@ -28,8 +28,8 @@ public class ProductDtoValidator implements Validator<ProductDto> {
             validationResult.add(Error.of("invalid.name", "Name must contain 5-10 characters (Russian or spaces)"));
         }
 
-        if (productDto.price() == null || productDto.price().compareTo(BigDecimal.ZERO) <= 0) {
-            validationResult.add(Error.of("invalid.price", "Price cannot be null and must be positive"));
+        if (productDto.price() == null || productDto.price().compareTo(BigDecimal.ZERO) < 0) {
+            validationResult.add(Error.of("invalid.price", "Price must be positive"));
         }
 
         if (productDto.description() != null && !productDto.description().matches("[а-яёА-ЯЁ\\s]{10,31}")) {

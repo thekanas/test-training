@@ -5,9 +5,8 @@ import org.junit.jupiter.api.Test;
 import ru.clevertec.product.entity.Product;
 import ru.clevertec.product.repository.ProductRepository;
 import ru.clevertec.product.util.ProductTestData;
+import ru.clevertec.product.util.TestConstant;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -32,9 +31,9 @@ class InMemoryProductRepositoryIT {
     @Test
     void findById() {
         // given
-        Product product1 = productRepository.save(new Product(null, "Банан", "Желтый", BigDecimal.valueOf(4.02), LocalDateTime.of(2023, 10, 29, 19, 1)));
-        Product product2 = productRepository.save(new Product(null, "Дыня", "Желтая", BigDecimal.valueOf(8.02), LocalDateTime.of(2023, 10, 29, 19, 1)));
-        Product expected = productRepository.save(new Product(null, "Апельсин", "Оранжевый", BigDecimal.valueOf(4.52), LocalDateTime.of(2023, 10, 29, 19, 1)));
+        Product product1 = productRepository.save(ProductTestData.builder().build().buildBananaProduct());
+        Product product2 = productRepository.save(ProductTestData.builder().build().buildBananaProduct());
+        Product expected = productRepository.save(ProductTestData.builder().build().buildBananaProduct());
 
         // when
         Product actual = productRepository.findById(expected.getUuid())
@@ -42,29 +41,27 @@ class InMemoryProductRepositoryIT {
 
         // then
         assertEquals(expected, actual);
-
     }
 
     @Test
     void findByIdShouldReturnOptionalEmpty_whenUuidIsNotFound() {
         // given
-        UUID uuid = UUID.fromString("25486810-43dd-41e8-ab60-98aa2d200ac9");
+        UUID uuidNotFound = TestConstant.UUID_NOT_FOUND;
         Optional<Product> expected = Optional.empty();
 
         // when
-        Optional<Product> actual = productRepository.findById(uuid);
+        Optional<Product> actual = productRepository.findById(uuidNotFound);
 
         // then
         assertEquals(expected, actual);
-
     }
 
     @Test
     void findAll() {
         // given
-        Product product1 = productRepository.save(new Product(null, "Банан", "Желтый", BigDecimal.valueOf(4.02), LocalDateTime.of(2023, 10, 29, 19, 1)));
-        Product product2 = productRepository.save(new Product(null, "Дыня", "Желтая", BigDecimal.valueOf(8.02), LocalDateTime.of(2023, 10, 29, 19, 1)));
-        Product product3 = productRepository.save(new Product(null, "Апельсин", "Оранжевый", BigDecimal.valueOf(4.52), LocalDateTime.of(2023, 10, 29, 19, 1)));
+        Product product1 = productRepository.save(ProductTestData.builder().build().buildBananaProduct());
+        Product product2 = productRepository.save(ProductTestData.builder().build().buildBananaProduct());
+        Product product3 = productRepository.save(ProductTestData.builder().build().buildBananaProduct());
 
         // when
         List<Product> actual = productRepository.findAll();
@@ -102,9 +99,9 @@ class InMemoryProductRepositoryIT {
     @Test
     void delete() {
         // given
-        Product product1 = productRepository.save(new Product(null, "Банан", "Желтый", BigDecimal.valueOf(4.02), LocalDateTime.of(2023, 10, 29, 19, 1)));
-        Product product2 = productRepository.save(new Product(null, "Банан", "Желтый", BigDecimal.valueOf(4.02), LocalDateTime.of(2023, 10, 29, 19, 1)));
-        Product product3 = productRepository.save(new Product(null, "Банан", "Желтый", BigDecimal.valueOf(4.02), LocalDateTime.of(2023, 10, 29, 19, 1)));
+        Product product1 = productRepository.save(ProductTestData.builder().build().buildBananaProduct());
+        Product product2 = productRepository.save(ProductTestData.builder().build().buildBananaProduct());
+        Product product3 = productRepository.save(ProductTestData.builder().build().buildBananaProduct());
 
         // when
         productRepository.delete(product3.getUuid());
@@ -117,12 +114,13 @@ class InMemoryProductRepositoryIT {
     @Test
     void deleteShouldNotThrowException_whenUuidIsNotFound() {
         // given
-        UUID noFoundUuid = UUID.fromString("6802b1e2-a572-45eb-b410-6666def1c46a");
-        Product product1 = productRepository.save(new Product(null, "Банан", "Желтый", BigDecimal.valueOf(4.02), LocalDateTime.of(2023, 10, 29, 19, 1)));
-        Product product2 = productRepository.save(new Product(null, "Банан", "Желтый", BigDecimal.valueOf(4.02), LocalDateTime.of(2023, 10, 29, 19, 1)));
-        Product product3 = productRepository.save(new Product(null, "Банан", "Желтый", BigDecimal.valueOf(4.02), LocalDateTime.of(2023, 10, 29, 19, 1)));
+        UUID noFoundUuid = TestConstant.UUID_NOT_FOUND;
+        Product product1 = productRepository.save(ProductTestData.builder().build().buildBananaProduct());
+        Product product2 = productRepository.save(ProductTestData.builder().build().buildBananaProduct());
+        Product product3 = productRepository.save(ProductTestData.builder().build().buildBananaProduct());
 
         // when, then
         assertDoesNotThrow(() -> productRepository.delete(noFoundUuid));
     }
+
 }

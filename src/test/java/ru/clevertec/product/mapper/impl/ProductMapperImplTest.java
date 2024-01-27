@@ -97,4 +97,5 @@ class ProductMapperImplTest {
                         new Product(UUID.fromString("deda7d86-dd74-4b17-8e7b-75060c3d5cbb"), "Апельсин", "Оранжевый", BigDecimal.valueOf(0.01), LocalDateTime.of(2023, 10, 29, 21, 3)))
         );
     }
+
 }

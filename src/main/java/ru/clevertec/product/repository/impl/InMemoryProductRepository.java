@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 public class InMemoryProductRepository implements ProductRepository {
 
@@ -25,18 +24,17 @@ public class InMemoryProductRepository implements ProductRepository {
 
     @Override
     public List<Product> findAll() {
-        return data.entrySet()
+        return data.values()
                 .stream()
-                .map(Map.Entry::getValue)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override
     public Product save(Product product) {
-        if(product == null) {
+        if (product == null) {
             throw new IllegalArgumentException();
         }
-        if(product.getUuid() == null ) {
+        if (product.getUuid() == null) {
             product.setUuid(UUID.randomUUID());
             product.setCreated(LocalDateTime.now());
         }

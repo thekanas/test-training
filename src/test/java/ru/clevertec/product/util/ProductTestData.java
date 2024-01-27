@@ -44,5 +44,9 @@ public class ProductTestData {
         return new InfoProductDto(uuid, name, description, price);
     }
 
+    public Product buildBananaProduct() {
+        return new Product(null, "Банан", "Желтый", BigDecimal.valueOf(4.02), LocalDateTime.of(2023, 10, 29, 19, 1));
+    }
+
 }
 
